@@ -8,7 +8,7 @@
 # define CLEAR_SCREEN puts("\x1b[H\x1b[2J")
 #endif
 
-//Agenda telefonica criada por: Artur Suleimane e Isaac Ramos
+//Agenda telefonica criada por: Larissa Brasil e Isaac Ramos
 //perfil do contato
 //Aplicativo 
 
@@ -40,51 +40,99 @@ int pesquisa_contatoDelete(struct Contato *contato, int tam, char nome_pesq[]){
 
 void altera_Contato(struct Contato *contato, int tam){
 	int i, pos, op;
-	char novoNome[30], novoFone[30], nome;
-	
+	char nome1[30], nome_lista[30];
+
 	listar_contatos(contato, tam);
 	
-	printf("\nAltere: [1]-Nome [2]-Fone: \n");
+	printf("\nAltere por: [1]-Nome [2]-Posicao\n");
 	scanf("%d", &op);
 	
 	if(op == 1){
-		printf("\nDigite o nome para ser alterado: ");
-		scanf("%s", &nome);
+		printf("\nDigite o nome a ser alterado: ");
+		scanf("%s", &nome_lista);
 		
 		for(i = 0; i < tam; i++){
-			if(strcmp(nome, *contato[i].nome) == 0){
-				printf("\nNovo nome: ");
-				scanf("%s", &novoNome);
+			if(strcmp(nome_lista, contato[i].nome) == 0){
+				printf("Altera nome: ");
+				scanf("%s", &nome1);
 				
-				strcpy(contato[i].nome, nome);
+				strcpy(contato[i].nome, nome1);
+				CLEAR_SCREEN;
 				printf("\nAlterado!");
 				break;
+				}
 			}
-		}
+		
+		
 	}else if(op == 2){
-		
-		printf("\nDigite o nome do contato: ");
-		scanf("%s", &nome);
-		
+			printf("\nDigite a posicao a ser alterada: ");
+			scanf("%d", &pos);
+			
+			printf("Altera nome: ");
+			scanf("%s", &nome1);
+			
 			for(i = 0; i < tam; i++){
-				if(strcmp(nome, *contato[i].nome)){
-					printf("\nAltera fone: ");
-					scanf("%s", &novoFone);
-	
-					strcpy(contato[i].fone, novoFone);
+				if(i == pos){
+					strcpy(contato[i].nome, nome1);
+					CLEAR_SCREEN;
 					printf("\nAlterado!");
 					break;
 				}
-			}		
-	}
-	ordena(contato, tam);
+			}
+		}
+}
+
+void altera_Fone(struct Contato *contato, int tam){
+	int i, pos, op;
+	char fone1[30], nome_lista[30];
+	
+	CLEAR_SCREEN;
+	listar_contatos(contato, tam);
+	
+	printf("\nAltere por: [1]-Nome [2]-Posicao\n");
+	scanf("%d", &op);
+	
+	if(op == 1){
+		printf("\nDigite o nome a ser alterado: ");
+		scanf("%s", &nome_lista);
+		
+		for(i = 0; i < tam; i++){
+			if(strcmp(nome_lista, contato[i].nome) == 0){
+				printf("Altera fone: ");
+				scanf("%s", &fone1);
+				
+				strcpy(contato[i].fone, fone1);
+				CLEAR_SCREEN;
+				printf("\nAlterado!");
+				break;
+				}
+			}
+		
+		
+	}else if(op == 2){
+			printf("\nDigite a posicao a ser alterada: ");
+			scanf("%d", &pos);
+			
+			printf("Altera fone: ");
+			scanf("%s", &fone1);
+			
+			for(i = 0; i < tam; i++){
+				if(i == pos){
+					strcpy(contato[i].fone, fone1);
+					CLEAR_SCREEN;
+					printf("\nAlterado!");
+					break;
+				}
+			}
+		}
 }
 
 void listar_contatos(struct Contato *contato, int tam){
 	int i;
 	for(i = 0; i < tam; i++){
-		printf("\nNome: %s ==== Fone: %s\n", contato[i].nome, contato[i].fone);
+		printf("\n\t[%d] Nome: %s\n\tFone: %s\n", i, contato[i].nome, contato[i].fone);
 	}
+	printf("\n------------- [%d] Contatos -------------", i);
 }
 
 void ordena(struct Contato *contato, int tam){
@@ -134,7 +182,7 @@ void menu(){
 }
 
 int main(){
-	int op, n, tam = 0, i = 0, quant, inseriu;
+	int op, n, tam = 0, i = 0, quant, inseriu, op2;
 	struct Contato *p;
 	char nome_pesq[20];
 	
@@ -156,8 +204,7 @@ int main(){
 					inseriu = inserir_contato(p, tam);
 					if(inseriu == 1){
 						tam++;
-						p = realloc(p,(tam + 2)*sizeof(struct Contato)); //aumenta o espaço reservado para os contatos;
-						ordena(p, tam);
+						p = realloc(p,(tam + 2)*sizeof(struct Contato)); //aumenta o espaÃ§o reservado para os contatos;
 						i++;
 					}
 				break; 
@@ -176,9 +223,19 @@ int main(){
 			case 4: listar_contatos(p, tam);						//listar
 				break;
 				
-			case 5:	altera_Contato(p, tam);							//Alterar
+			case 5:	do{												//Alterar
+					printf("\nAlterar: [1]-Nome [2]-Fone: ");
+					scanf("%d", &op2);
+					}while(op2 < 1 || op2 > 2);
+					
+					CLEAR_SCREEN;
+					if(op2 == 1)
+						altera_Contato(p, tam);
+					else
+						altera_Fone(p, tam);
 				break;
 		}
+	ordena(p, tam);
 	menu();
 	}while(op);
 	return 0;
