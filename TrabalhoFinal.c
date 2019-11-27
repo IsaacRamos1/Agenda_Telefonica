@@ -11,6 +11,7 @@
 //Agenda telefonica criada por: Larissa Brasil e Isaac Ramos
 //perfil do contato
 //Aplicativo 
+//Larissa na area B)
 
 struct Contato{
 	char nome[30];
