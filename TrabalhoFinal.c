@@ -11,7 +11,22 @@
 //Agenda telefonica criada por: Larissa Brasil e Isaac Ramos
 //perfil do contato
 //Aplicativo 
-//Larissa na area B)
+
+//Somente um comentário
+
+//Criando arquivo	
+//FILE *arq;
+//abrindo arquivo
+//arq = fopen("trabalhoFinal.txt","a+");
+
+//verificando erro na abertura
+//if(arq == NULL){
+	//printf("Erro na abertura!");
+        //system("pause");
+        //exit(1);
+//}
+
+
 
 struct Contato{
 	char nome[30];
